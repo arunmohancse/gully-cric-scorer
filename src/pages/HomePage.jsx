@@ -3,15 +3,16 @@ import { useAuthStore } from '../store/authStore'
 import Navbar from '../components/common/Navbar'
 
 export default function HomePage() {
-  const { user } = useAuthStore()
+  const { profile, user } = useAuthStore()
+  const displayName = profile?.display_name || user?.email?.split('@')[0] || 'Player'
 
   return (
     <div className="min-h-screen">
       <Navbar />
       <div className="max-w-2xl mx-auto px-4 py-12">
         <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold text-white mb-2">Welcome back!</h1>
-          <p className="text-gray-400">{user?.email}</p>
+          <h1 className="text-3xl font-bold text-white mb-2">Welcome back, {displayName}!</h1>
+          <p className="text-gray-500 text-sm">{user?.email}</p>
         </div>
 
         <div className="grid grid-cols-1 gap-4">

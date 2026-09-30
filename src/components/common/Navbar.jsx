@@ -3,8 +3,9 @@ import { supabase } from '../../lib/supabase'
 import { useAuthStore } from '../../store/authStore'
 
 export default function Navbar() {
-  const { user } = useAuthStore()
+  const { user, profile } = useAuthStore()
   const navigate = useNavigate()
+  const displayName = profile?.display_name || user?.email?.split('@')[0] || ''
 
   async function handleLogout() {
     await supabase.auth.signOut()
@@ -21,10 +22,13 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           <Link to="/matches" className="text-gray-300 hover:text-white text-sm">Matches</Link>
           <Link to="/teams" className="text-gray-300 hover:text-white text-sm">Teams</Link>
-          <button
-            onClick={handleLogout}
-            className="text-sm text-gray-400 hover:text-white"
-          >
+          <Link to="/profile" className="flex items-center gap-2 group">
+            <div className="w-7 h-7 rounded-full bg-primary-600 flex items-center justify-center text-xs font-bold text-white">
+              {displayName.charAt(0).toUpperCase()}
+            </div>
+            <span className="text-sm text-gray-300 group-hover:text-white hidden sm:block">{displayName}</span>
+          </Link>
+          <button onClick={handleLogout} className="text-sm text-gray-500 hover:text-white">
             Logout
           </button>
         </div>
